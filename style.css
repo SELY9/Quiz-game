@@ -74,3 +74,55 @@ body{
 .incorrect{
     background: #ff9393;
 }
+
+.login-body{
+    background: #001e4d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Poopins', sans-serif;
+
+}
+
+.login-app{
+    background: white;
+    padding:40px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.login-app h1 {
+    color:#001e4d;
+    margin-bottom: 20px;
+    font-size: 22px;
+
+}
+.login-app input {
+    width: 90%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius:5px;
+    font-size: 16px;
+}
+
+.login-app button{
+    background: #001e4d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius:5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.login-app button:hover {
+    background-color: #003080;
+}
