@@ -8,7 +8,7 @@ startBtn.addEventListener("click",() => {
         localStorage.setItem("playerName", name);
         window.location.href = "index.html";
     }else{
-        alert("Please input your name to play![dummdum] ");
+        alert("Please input your name to play! - dumdum 🤪 ");
 
 
     }    
