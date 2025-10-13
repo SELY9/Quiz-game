@@ -8,7 +8,7 @@ startBtn.addEventListener("click",() => {
         localStorage.setItem("playerName", name);
         window.location.href = "index.html";
     }else{
-        alert(`Hey ${name}, let's start the quiz!`);
+        alert("Please input your name to play![dummdum] ");
 
 
     }    
