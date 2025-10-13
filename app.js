@@ -2,6 +2,12 @@ const playerName = localStorage.getItem("playerName");
 if (!playerName) {
   window.location.href = "login.html";
 }
+const correctSound = new Audio ("sounds/correct.mp3");
+const wrongSound = new Audio("sounds/wrong.mp3");
+correctSound.volume = 0.4;
+wrongSound.volume = 0.4;
+
+
 const questions = [
   {
     question: "Which is the largest animal in the world?",
@@ -93,9 +99,11 @@ function selectAnswer(e) {
   const isCorrect = selectedBtn.dataset.correct === "true";
   if (isCorrect) {
     selectedBtn.classList.add("correct");
+    correctSound.play();
     score++;
   } else {
     selectedBtn.classList.add("incorrect");
+    wrongSound.play();
   }
   Array.from(answerButtons.children).forEach((button) => {
     if (button.dataset.correct === "true") {

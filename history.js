@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (quizHistory.length === 0) {
     historyList.innerHTML = "<p>No history yet.</p>";
   } else {
-    // Use REAL backticks here! (key below Esc)
     historyList.innerHTML = quizHistory
       .map((entry, index) => {
         return `<p><strong>${index + 1}. ${entry.name}</strong> - ${

@@ -1,128 +1,196 @@
-*{
-    margin : 0;
-    padding: 0;
-    font-family: 'Poppins',sans-serif;
-    box-sizing: border-box;
-}
-body{
-    background: #001e4d;
-    
-
-}
-.app{
-    background: white;
-    width: 90%;
-    max-width: 600px;
-    margin:100px auto 0;
-    border-radius: 10px;
-    padding: 30px;
-}
-.app h1{
-    text-align: center;
-    font-size:25px;
-    color:#001e4d;
-    font-weight: 600;
-    border-bottom: 1px solid #333;
-    padding-bottom:30px;
-}
-.quiz{
-    padding: 20px 0;
-}
-.quiz h2{
-    font-size: 18px;
-    color:#001e4d;
-    font-weight: 600;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
-.btn{
-    background-color:#fff;
-    color:#222;
-    font-weight: 500;
-    width:100%;
-    border:1px solid #222;
-    padding: 10px;
-    margin: 10px 0;
-    text-align: left;
-    border-radius: 4px;
-    cursor:pointer;
-    transition:all 0.3s;
-}
-.btn:hover:not(:disabled){
-    background: #222;
-    color:white;
-
-}
-.btn:disabled{
-    cursor:no-drop;
-}
-#next-btn{
-    background :#001e4d;
-    color:white;
-    font-weight:500;
-    width:150px;
-    border:0;
-    padding:10px;
-    margin:20px auto 0;
-    border-radius: 4px;
-    cursor:pointer;
-    display:none;
+/* === Background Animation === */
+body {
+  background-size: 400% 400%;
+  background: linear-gradient(120deg, #a8c0ff, #fbc2eb);
+  height: 100vh;
+  animation: waveBackground 15s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.correct{
-    background:#9aeabc;
-}
-.incorrect{
-    background: #ff9393;
-}
-
-.login-body{
-    background: #001e4d;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Poopins', sans-serif;
-
+@keyframes waveBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.login-app{
-    background: white;
-    padding:40px;
-    border-radius: 10px;
-    text-align: center;
-    width: 300px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+/* === Quiz Container === */
+.app {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+}
 
+.app h1 {
+  color: #003049;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.quiz {
+  padding: 20px 0;
+}
+
+.quiz h2 {
+  font-size: 20px;
+  color: #023047;
+  margin-bottom: 20px;
+}
+
+/* === Buttons === */
+.btn {
+  display: block;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #b0d0d3;
+  color: #023047;
+  padding: 12px;
+  border-radius: 30px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover:not(:disabled),
+#next-btn:hover {
+  background: #219ebc;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+
+#next-btn {
+  background: #219ebc;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 12px 30px;
+  margin-top: 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  display: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+.correct {
+  background-color: #b5e48c !important;
+  color: #023047;
+}
+
+.incorrect {
+  background-color: #ffadad !important;
+  color: #023047;
+}
+
+
+.login-body {
+  background: linear-gradient(120deg, #89f7fe, #66a6ff);
+  background-size: 400% 400%;
+  animation: waveBackground 15s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-app {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
 }
 
 .login-app h1 {
-    color:#001e4d;
-    margin-bottom: 20px;
-    font-size: 22px;
-
+  color: #023047;
+  margin-bottom: 20px;
+  font-size: 22px;
 }
+
 .login-app input {
-    width: 90%;
-    padding: 10px;
-    margin: 15px 0;
-    border: 1px solid #ccc;
-    border-radius:5px;
-    font-size: 16px;
+  width: 90%;
+  padding: 10px;
+  margin: 15px 0;
+  border: 1px solid #b0d0d3;
+  border-radius: 25px;
+  font-size: 16px;
+  text-align: center;
 }
 
-.login-app button{
-    background: #001e4d;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius:5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    transition: background-color 0.3s;
+.login-app button {
+  background: #219ebc;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .login-app button:hover {
-    background-color: #003080;
+  background-color: #126782;
+  transform: scale(1.03);
+}
+
+/* === History Page === */
+.history-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 30px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+#history-list p {
+  background: rgba(255, 255, 255, 0.7);
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+#clear-btn,
+#back-btn {
+  margin-top: 15px;
+  background: #219ebc;
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#clear-btn:hover,
+#back-btn:hover {
+  background: #126782;
 }
