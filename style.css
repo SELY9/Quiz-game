@@ -1,44 +1,65 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", sans-serif;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-/* === Background Animation === */
 body {
-  background-size: 400% 400%;
-  background: linear-gradient(120deg, #a8c0ff, #fbc2eb);
   height: 100vh;
-  animation: waveBackground 15s ease infinite;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(120deg, #a8c0ff, #bde0fe, #c9f4f9);
+  background-size: 400% 400%;
+  animation: waveBackground 15s ease infinite;
+  overflow: hidden;
 }
 
 @keyframes waveBackground {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-/* === Quiz Container === */
-.app {
+.app,
+.login-app,
+.history-container {
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  padding: 30px;
   width: 90%;
   max-width: 600px;
-  border-radius: 16px;
-  padding: 30px;
   text-align: center;
+  animation: fadeIn 0.8s ease forwards;
 }
 
-.app h1 {
-  color: #003049;
+.app h1,
+.login-app h1,
+.history-container h1 {
+  color: #023047;
+  font-size: 28px;
   font-weight: 600;
   margin-bottom: 20px;
-  font-size: 28px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .quiz {
@@ -48,10 +69,8 @@ body {
 .quiz h2 {
   font-size: 20px;
   color: #023047;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
-
-/* === Buttons === */
 .btn {
   display: block;
   width: 100%;
@@ -66,12 +85,10 @@ body {
   transition: all 0.3s ease;
 }
 
-.btn:hover:not(:disabled),
-#next-btn:hover {
+.btn:hover:not(:disabled) {
   background: #219ebc;
   color: white;
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: scale(1.03);
 }
 
 .btn:disabled {
@@ -93,6 +110,11 @@ body {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+#next-btn:hover {
+  background: #126782;
+  transform: scale(1.05);
+}
+
 
 .correct {
   background-color: #b5e48c !important;
@@ -106,29 +128,9 @@ body {
 
 
 .login-body {
-  background: linear-gradient(120deg, #89f7fe, #66a6ff);
-  background-size: 400% 400%;
-  animation: waveBackground 15s ease infinite;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.login-app {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  padding: 40px;
-  border-radius: 16px;
-  text-align: center;
-  width: 320px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
-}
-
-.login-app h1 {
-  color: #023047;
-  margin-bottom: 20px;
-  font-size: 22px;
 }
 
 .login-app input {
@@ -158,17 +160,6 @@ body {
   transform: scale(1.03);
 }
 
-/* === History Page === */
-.history-container {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: 30px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
-  text-align: center;
-}
 
 #history-list p {
   background: rgba(255, 255, 255, 0.7);
@@ -178,19 +169,58 @@ body {
   font-size: 15px;
 }
 
-#clear-btn,
-#back-btn {
-  margin-top: 15px;
+.history-buttons {
+  margin-top: 20px;
+}
+
+.history-buttons button {
+  margin: 6px;
   background: #219ebc;
   border: none;
   color: white;
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 20px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-#clear-btn:hover,
-#back-btn:hover {
+.history-buttons button:hover {
   background: #126782;
+  transform: scale(1.05);
 }
+/* 🌊 Make the Play Again button stand out */
+#playAgain-btn {
+  background: #00b4d8;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 180, 216, 0.4);
+  animation: pulseWave 1.8s ease-in-out infinite;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#playAgain-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 18px rgba(0, 180, 216, 0.6);
+  background: #0096c7;
+}
+
+/* 🌊 Gentle pulse effect */
+@keyframes pulseWave {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(0, 180, 216, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 180, 216, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(0, 180, 216, 0.4);
+  }
+}
+
