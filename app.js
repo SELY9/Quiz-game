@@ -45,7 +45,7 @@ const questions = [
       { text: "Kalahari", correct: false },
       { text: "Gobi", correct: false },
       { text: "Sahara", correct: false },
-      { text: "Antarctica", correct: true },
+      { text: "Antarctic Polar Desert", correct: true },
     ],
   },
   {

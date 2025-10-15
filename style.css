@@ -10,11 +10,27 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(120deg, #a8c0ff, #bde0fe, #c9f4f9);
-  background-size: 400% 400%;
-  animation: waveBackground 15s ease infinite;
+  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.07)), 
+    url("images/W2E.png");
+  background-size: cover;
+  animation: waveBackground 20s ease-in-out infinite, lightPulse 12s ease-in-out infinite;
   overflow: hidden;
+  background-position: center;
+
 }
+
+@keyframes lightPulse {
+  0% {
+    filter: brightness(0.9);
+  }
+  50% {
+    filter: brightness(1.05);
+  }
+  100% {
+    filter: brightness(0.9);
+  }
+}
+
 
 @keyframes waveBackground {
   0% {
