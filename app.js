@@ -1,68 +1,179 @@
-//  Retrieve player name or redirect if not found
+// Redirect to login if player name or level not found
 const playerName = localStorage.getItem("playerName");
-if (!playerName) {
+const selectedLevel = localStorage.getItem("quizLevel");
+
+if (!playerName || !selectedLevel) {
   window.location.href = "login.html";
+  throw new Error("Redirecting to login — quiz aborted.");
 }
 
-//  Sound effects
+// 🔊 Sound Effects
 const correctSound = new Audio("sounds/correct.mp3");
 const wrongSound = new Audio("sounds/wrong.mp3");
 correctSound.volume = 0.4;
 wrongSound.volume = 0.4;
 
-//  Questions list
-const questions = [
-  {
-    question: "Which is the largest animal in the world?",
-    answers: [
-      { text: "Shark", correct: false },
-      { text: "Blue whale", correct: true },
-      { text: "Elephant", correct: false },
-      { text: "Giraffe", correct: false },
-    ],
-  },
-  {
-    question: "Which is the largest continent by area?",
-    answers: [
-      { text: "Australia", correct: false },
-      { text: "Africa", correct: false },
-      { text: "Europe", correct: false },
-      { text: "Asia", correct: true },
-    ],
-  },
-  {
-    question: "Which is the smallest country in the world?",
-    answers: [
-      { text: "Vatican City", correct: true },
-      { text: "Bhutan", correct: false },
-      { text: "Nepal", correct: false },
-      { text: "Sri Lanka", correct: false },
-    ],
-  },
-  {
-    question: "Which is the largest desert in the world?",
-    answers: [
-      { text: "Kalahari", correct: false },
-      { text: "Gobi", correct: false },
-      { text: "Sahara", correct: false },
-      { text: "Antarctic Polar Desert", correct: true },
-    ],
-  },
-  {
-    question: "Which is the smallest continent in the world?",
-    answers: [
-      { text: "Asia", correct: false },
-      { text: "Australia", correct: true },
-      { text: "Arctic", correct: false },
-      { text: "Africa", correct: false },
-    ],
-  },
-];
+//  Questions by Difficulty
+const questionsByLevel = {
+  easy: [
+    {
+      question: "Which is the largest animal in the world?",
+      answers: [
+        { text: "Shark", correct: false },
+        { text: "Blue whale", correct: true },
+        { text: "Elephant", correct: false },
+        { text: "Giraffe", correct: false },
+      ],
+    },
+    {
+      question: "Which is the largest continent by area?",
+      answers: [
+        { text: "Australia", correct: false },
+        { text: "Africa", correct: false },
+        { text: "Europe", correct: false },
+        { text: "Asia", correct: true },
+      ],
+    },
+    {
+      question: "Which is the smallest country in the world?",
+      answers: [
+        { text: "Vatican City", correct: true },
+        { text: "Bhutan", correct: false },
+        { text: "Nepal", correct: false },
+        { text: "Sri Lanka", correct: false },
+      ],
+    },
+    {
+      question: "Which is the largest desert in the world?",
+      answers: [
+        { text: "Kalahari", correct: false },
+        { text: "Gobi", correct: false },
+        { text: "Sahara", correct: false },
+        { text: "Antarctic Polar Desert", correct: true },
+      ],
+    },
+    {
+      question: "Which is the smallest continent in the world?",
+      answers: [
+        { text: "Asia", correct: false },
+        { text: "Australia", correct: true },
+        { text: "Arctic", correct: false },
+        { text: "Africa", correct: false },
+      ],
+    },
+  ],
 
-//  DOM elements
-const QuestionELement = document.getElementById("Question");
+  medium: [
+    {
+      question: "What is the capital city of Canada?",
+      answers: [
+        { text: "Toronto", correct: false },
+        { text: "Ottawa", correct: true },
+        { text: "Vancouver", correct: false },
+        { text: "Montreal", correct: false },
+      ],
+    },
+    {
+      question: "Which planet has the most moons?",
+      answers: [
+        { text: "Saturn", correct: true },
+        { text: "Jupiter", correct: false },
+        { text: "Mars", correct: false },
+        { text: "Neptune", correct: false },
+      ],
+    },
+    {
+      question: "Which ocean is the deepest on Earth?",
+      answers: [
+        { text: "Indian Ocean", correct: false },
+        { text: "Atlantic Ocean", correct: false },
+        { text: "Pacific Ocean", correct: true },
+        { text: "Arctic Ocean", correct: false },
+      ],
+    },
+    {
+      question: "Who painted the Mona Lisa?",
+      answers: [
+        { text: "Leonardo da Vinci", correct: true },
+        { text: "Vincent van Gogh", correct: false },
+        { text: "Pablo Picasso", correct: false },
+        { text: "Claude Monet", correct: false },
+      ],
+    },
+    {
+      question: "Which element has the chemical symbol 'O'?",
+      answers: [
+        { text: "Gold", correct: false },
+        { text: "Oxygen", correct: true },
+        { text: "Osmium", correct: false },
+        { text: "Oxide", correct: false },
+      ],
+    },
+  ],
+
+  hard: [
+    {
+      question: "What is the rarest blood type in humans?",
+      answers: [
+        { text: "O-", correct: false },
+        { text: "AB-", correct: true },
+        { text: "B-", correct: false },
+        { text: "A-", correct: false },
+      ],
+    },
+    {
+      question: "What is the largest known star in the universe?",
+      answers: [
+        { text: "UY Scuti", correct: true },
+        { text: "Betelgeuse", correct: false },
+        { text: "VY Canis Majoris", correct: false },
+        { text: "Antares", correct: false },
+      ],
+    },
+    {
+      question: "What is the powerhouse of the cell?",
+      answers: [
+        { text: "Nucleus", correct: false },
+        { text: "Mitochondria", correct: true },
+        { text: "Ribosome", correct: false },
+        { text: "Endoplasmic Reticulum", correct: false },
+      ],
+    },
+    {
+      question: "What is the square root of 256?",
+      answers: [
+        { text: "14", correct: false },
+        { text: "15", correct: false },
+        { text: "16", correct: true },
+        { text: "18", correct: false },
+      ],
+    },
+    {
+      question: "Which gas is most abundant in Earth's atmosphere?",
+      answers: [
+        { text: "Oxygen", correct: false },
+        { text: "Nitrogen", correct: true },
+        { text: "Carbon Dioxide", correct: false },
+        { text: "Argon", correct: false },
+      ],
+    },
+  ],
+};
+
+//  Select the current level's questions
+const questions = questionsByLevel[selectedLevel];
+
+//  DOM Elements
+const QuestionElement = document.getElementById("Question");
 const answerButtons = document.getElementById("answer-buttons");
 const nextButton = document.getElementById("next-btn");
+
+//  Player Info Display
+const playerInfo = document.createElement("h2");
+playerInfo.innerText = `Player: ${playerName} | Level: ${selectedLevel.toUpperCase()}`;
+playerInfo.style.color = "#023047";
+playerInfo.style.marginBottom = "10px";
+document.querySelector(".app").prepend(playerInfo);
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -75,12 +186,12 @@ function startQuiz() {
   showQuestion();
 }
 
-//  Display current question
+//  Show Question
 function showQuestion() {
   resetState();
   let currentQuestion = questions[currentQuestionIndex];
   let questionNo = currentQuestionIndex + 1;
-  QuestionELement.innerHTML = `${questionNo}. ${currentQuestion.question}`;
+  QuestionElement.innerHTML = `${questionNo}. ${currentQuestion.question}`;
 
   currentQuestion.answers.forEach((answer) => {
     const button = document.createElement("button");
@@ -92,7 +203,7 @@ function showQuestion() {
   });
 }
 
-//  Reset question state
+//  Reset State
 function resetState() {
   nextButton.style.display = "none";
   while (answerButtons.firstChild) {
@@ -100,7 +211,7 @@ function resetState() {
   }
 }
 
-//  Handle answer selection
+//  Select Answer
 function selectAnswer(e) {
   const selectedBtn = e.target;
   const isCorrect = selectedBtn.dataset.correct === "true";
@@ -121,21 +232,21 @@ function selectAnswer(e) {
     button.disabled = true;
   });
 
-  // Delay before showing next button for sound clarity
   setTimeout(() => {
     nextButton.style.display = "block";
   }, 800);
 }
 
-//  Show final score
+//  Show Score
 function showScore() {
   resetState();
-  QuestionELement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+  QuestionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
   nextButton.innerHTML = "Play Again";
   nextButton.style.display = "block";
 
   saveToHistory(score);
-  QuestionELement.innerHTML += `
+
+  QuestionElement.innerHTML += `
     <br><br>
     <button id="history-btn">View History</button>
   `;
@@ -145,23 +256,21 @@ function showScore() {
   });
 }
 
-//  Save quiz attempt
+//  Save History
 function saveToHistory(score) {
-  const playerName = localStorage.getItem("playerName") || "Unknown Player";
   const quizHistory = JSON.parse(localStorage.getItem("quizHistory")) || [];
-
   const attempt = {
     name: playerName,
+    level: selectedLevel,
     score: score,
     total: questions.length,
     date: new Date().toLocaleString(),
   };
-
   quizHistory.push(attempt);
   localStorage.setItem("quizHistory", JSON.stringify(quizHistory));
 }
 
-//  Handle next button
+// ⏭ Next Button Logic
 function handleNextButton() {
   currentQuestionIndex++;
   if (currentQuestionIndex < questions.length) {
@@ -171,14 +280,16 @@ function handleNextButton() {
   }
 }
 
-// Button Event
 nextButton.addEventListener("click", () => {
   if (currentQuestionIndex < questions.length) {
     handleNextButton();
   } else {
-    startQuiz();
+    // Play Again → reset everything
+    localStorage.removeItem("playerName");
+    localStorage.removeItem("quizLevel");
+    window.location.href = "login.html";
   }
 });
 
-//  Start
+//  Start the game
 startQuiz();

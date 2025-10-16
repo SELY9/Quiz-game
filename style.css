@@ -1,3 +1,4 @@
+/*  Global Reset */
 * {
   margin: 0;
   padding: 0;
@@ -6,19 +7,48 @@
 }
 
 body {
+  position: relative;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.07)), 
-    url("images/W2E.png");
-  background-size: cover;
-  animation: waveBackground 20s ease-in-out infinite, lightPulse 12s ease-in-out infinite;
   overflow: hidden;
-  background-position: center;
-
+  transform: translateZ(0);
 }
 
+/*  True moving background layer */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.07)
+    ),
+    url("images/W2E.png");
+  background-size: 130% 130%;
+  background-repeat: no-repeat;
+  background-position: 0% 50%;
+  animation: waveDrift 35s ease-in-out infinite, lightPulse 12s ease-in-out infinite;
+  z-index: -1;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+/*  Enhanced visible drift */
+@keyframes waveDrift {
+  0% {
+    background-position: 0% 45%;
+  }
+  50% {
+    background-position: 100% 55%;
+  }
+  100% {
+    background-position: 0% 45%;
+  }
+}
+
+/*  Brightness pulse */
 @keyframes lightPulse {
   0% {
     filter: brightness(0.9);
@@ -31,42 +61,7 @@ body {
   }
 }
 
-
-@keyframes waveBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.app,
-.login-app,
-.history-container {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(14px);
-  border-radius: 16px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
-  padding: 30px;
-  width: 90%;
-  max-width: 600px;
-  text-align: center;
-  animation: fadeIn 0.8s ease forwards;
-}
-
-.app h1,
-.login-app h1,
-.history-container h1 {
-  color: #023047;
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
+/*  Fade-in Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -77,7 +72,109 @@ body {
     transform: translateY(0);
   }
 }
+/*  Glass Cards (Quiz, Login, History) */
+.app,
+.login-app,
+.history-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  animation: fadeIn 0.8s ease forwards;
+  position: relative;
+  z-index: 1;
+}
 
+/*  Headings */
+.app h1,
+.login-app h1,
+.history-container h1 {
+  color: #023047;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
+
+/*  LOGIN PAGE STYLING */
+.login-body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*  Input & Buttons on Login */
+.login-app input {
+  width: 90%;
+  padding: 12px;
+  margin: 15px 0;
+  border: 1.5px solid #b0d0d3;
+  border-radius: 25px;
+  font-size: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.login-app input:focus {
+  border-color: #219ebc;
+  outline: none;
+  box-shadow: 0 0 8px rgba(33, 158, 188, 0.4);
+}
+
+.login-app button {
+  background: #219ebc;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 600;
+}
+
+.login-app button:hover {
+  background-color: #126782;
+  transform: scale(1.05);
+}
+
+/*  Select Difficulty Title */
+.login-app h3 {
+  color: #023047;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/*  Level Buttons */
+.level-btn {
+  background: #219ebc;
+  border: none;
+  color: white;
+  padding: 12px 0;
+  width: 100%;
+  border-radius: 25px;
+  margin: 8px 0;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.level-btn:hover {
+  background-color: #126782;
+  transform: translateY(-2px);
+}
+
+/*  QUIZ SECTION */
 .quiz {
   padding: 20px 0;
 }
@@ -87,6 +184,8 @@ body {
   color: #023047;
   margin-bottom: 15px;
 }
+
+/*  Answer Buttons */
 .btn {
   display: block;
   width: 100%;
@@ -105,6 +204,7 @@ body {
   background: #219ebc;
   color: white;
   transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(33, 158, 188, 0.4);
 }
 
 .btn:disabled {
@@ -112,71 +212,42 @@ body {
   opacity: 0.6;
 }
 
-
-#next-btn {
-  background: #219ebc;
-  color: white;
-  font-size: 16px;
-  border: none;
-  padding: 12px 30px;
-  margin-top: 20px;
-  border-radius: 25px;
-  cursor: pointer;
-  display: none;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#next-btn:hover {
-  background: #126782;
-  transform: scale(1.05);
-}
-
-
+/*  Correct & ❌ Incorrect Answers */
 .correct {
   background-color: #b5e48c !important;
   color: #023047;
+  border: 1px solid #90be6d;
 }
 
 .incorrect {
   background-color: #ffadad !important;
   color: #023047;
+  border: 1px solid #ef476f;
 }
 
-
-.login-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-app input {
-  width: 90%;
-  padding: 10px;
-  margin: 15px 0;
-  border: 1px solid #b0d0d3;
-  border-radius: 25px;
-  font-size: 16px;
-  text-align: center;
-}
-
-.login-app button {
+/* ⏭ Next Button */
+#next-btn {
   background: #219ebc;
   color: white;
-  padding: 10px 20px;
+  font-size: 16px;
   border: none;
+  padding: 12px 35px;
+  margin-top: 25px;
   border-radius: 25px;
   cursor: pointer;
-  font-size: 16px;
-  width: 100%;
-  transition: background-color 0.3s, transform 0.2s;
+  display: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
 }
 
-.login-app button:hover {
-  background-color: #126782;
-  transform: scale(1.03);
+#next-btn:hover {
+  background: #126782;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(18, 103, 130, 0.4);
 }
 
-
+/*  HISTORY PAGE */
 #history-list p {
   background: rgba(255, 255, 255, 0.7);
   margin: 8px 0;
@@ -194,17 +265,19 @@ body {
   background: #219ebc;
   border: none;
   color: white;
-  padding: 8px 18px;
+  padding: 10px 20px;
   border-radius: 20px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .history-buttons button:hover {
   background: #126782;
   transform: scale(1.05);
 }
-/* 🌊 Make the Play Again button stand out */
+
+/*  Play Again Pulse */
 #playAgain-btn {
   background: #00b4d8;
   color: white;
@@ -224,7 +297,7 @@ body {
   background: #0096c7;
 }
 
-/* 🌊 Gentle pulse effect */
+/*  Gentle Pulse Animation */
 @keyframes pulseWave {
   0% {
     transform: scale(1);
@@ -239,4 +312,3 @@ body {
     box-shadow: 0 0 12px rgba(0, 180, 216, 0.4);
   }
 }
-
