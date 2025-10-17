@@ -213,7 +213,7 @@ function resetState() {
   }
 }
 
-// Handle answer selection
+// Handle answer selection and auto-advance
 function selectAnswer(e) {
   const selectedBtn = e.target;
   const isCorrect = selectedBtn.dataset.correct === "true";
@@ -234,17 +234,21 @@ function selectAnswer(e) {
     button.disabled = true;
   });
 
+  // Automatically go to next question after delay
   setTimeout(() => {
-    nextButton.style.display = "block";
-  }, 800);
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore();
+    }
+  }, 1200);
 }
 
 // Display final score
 function showScore() {
   resetState();
   QuestionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
-  nextButton.innerHTML = "Play Again";
-  nextButton.style.display = "block";
   saveToHistory(score);
 
   QuestionElement.innerHTML += `
@@ -277,26 +281,6 @@ function saveToHistory(score) {
   quizHistory.push(attempt);
   localStorage.setItem("quizHistory", JSON.stringify(quizHistory));
 }
-
-// Handle "Next" button
-function handleNextButton() {
-  currentQuestionIndex++;
-  if (currentQuestionIndex < questions.length) {
-    showQuestion();
-  } else {
-    showScore();
-  }
-}
-
-nextButton.addEventListener("click", () => {
-  if (currentQuestionIndex < questions.length) {
-    handleNextButton();
-  } else {
-    localStorage.removeItem("playerName");
-    localStorage.removeItem("quizLevel");
-    window.location.href = "login.html";
-  }
-});
 
 // Start the quiz
 startQuiz();
