@@ -1,19 +1,21 @@
-// Redirect to login if player name or level not found
+// Check for stored player info and redirect to login if missing
 const playerName = localStorage.getItem("playerName");
 const selectedLevel = localStorage.getItem("quizLevel");
 
 if (!playerName || !selectedLevel) {
-  window.location.href = "login.html";
-  throw new Error("Redirecting to login — quiz aborted.");
+  localStorage.removeItem("playerName");
+  localStorage.removeItem("quizLevel");
+  window.location.replace("login.html");
+  throw new Error("Redirecting to login — stopping script.");
 }
 
-// 🔊 Sound Effects
+// Sound effects
 const correctSound = new Audio("sounds/correct.mp3");
 const wrongSound = new Audio("sounds/wrong.mp3");
 correctSound.volume = 0.4;
 wrongSound.volume = 0.4;
 
-//  Questions by Difficulty
+// Question sets by difficulty level
 const questionsByLevel = {
   easy: [
     {
@@ -160,15 +162,15 @@ const questionsByLevel = {
   ],
 };
 
-//  Select the current level's questions
+// Select the current level's questions
 const questions = questionsByLevel[selectedLevel];
 
-//  DOM Elements
+// DOM elements
 const QuestionElement = document.getElementById("Question");
 const answerButtons = document.getElementById("answer-buttons");
 const nextButton = document.getElementById("next-btn");
 
-//  Player Info Display
+// Display player information
 const playerInfo = document.createElement("h2");
 playerInfo.innerText = `Player: ${playerName} | Level: ${selectedLevel.toUpperCase()}`;
 playerInfo.style.color = "#023047";
@@ -178,7 +180,7 @@ document.querySelector(".app").prepend(playerInfo);
 let currentQuestionIndex = 0;
 let score = 0;
 
-//  Start Quiz
+// Initialize quiz
 function startQuiz() {
   currentQuestionIndex = 0;
   score = 0;
@@ -186,11 +188,11 @@ function startQuiz() {
   showQuestion();
 }
 
-//  Show Question
+// Display current question
 function showQuestion() {
   resetState();
-  let currentQuestion = questions[currentQuestionIndex];
-  let questionNo = currentQuestionIndex + 1;
+  const currentQuestion = questions[currentQuestionIndex];
+  const questionNo = currentQuestionIndex + 1;
   QuestionElement.innerHTML = `${questionNo}. ${currentQuestion.question}`;
 
   currentQuestion.answers.forEach((answer) => {
@@ -203,7 +205,7 @@ function showQuestion() {
   });
 }
 
-//  Reset State
+// Reset state before showing next question
 function resetState() {
   nextButton.style.display = "none";
   while (answerButtons.firstChild) {
@@ -211,7 +213,7 @@ function resetState() {
   }
 }
 
-//  Select Answer
+// Handle answer selection
 function selectAnswer(e) {
   const selectedBtn = e.target;
   const isCorrect = selectedBtn.dataset.correct === "true";
@@ -237,26 +239,32 @@ function selectAnswer(e) {
   }, 800);
 }
 
-//  Show Score
+// Display final score
 function showScore() {
   resetState();
   QuestionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
   nextButton.innerHTML = "Play Again";
   nextButton.style.display = "block";
-
   saveToHistory(score);
 
   QuestionElement.innerHTML += `
     <br><br>
     <button id="history-btn">View History</button>
+    <button id="backLogin-btn" style="margin-left:10px;">Back to Login</button>
   `;
 
   document.getElementById("history-btn").addEventListener("click", () => {
     window.location.href = "history.html";
   });
+
+  document.getElementById("backLogin-btn").addEventListener("click", () => {
+    localStorage.removeItem("playerName");
+    localStorage.removeItem("quizLevel");
+    window.location.href = "login.html";
+  });
 }
 
-//  Save History
+// Save quiz attempt to history
 function saveToHistory(score) {
   const quizHistory = JSON.parse(localStorage.getItem("quizHistory")) || [];
   const attempt = {
@@ -270,7 +278,7 @@ function saveToHistory(score) {
   localStorage.setItem("quizHistory", JSON.stringify(quizHistory));
 }
 
-// ⏭ Next Button Logic
+// Handle "Next" button
 function handleNextButton() {
   currentQuestionIndex++;
   if (currentQuestionIndex < questions.length) {
@@ -284,12 +292,11 @@ nextButton.addEventListener("click", () => {
   if (currentQuestionIndex < questions.length) {
     handleNextButton();
   } else {
-    // Play Again → reset everything
     localStorage.removeItem("playerName");
     localStorage.removeItem("quizLevel");
     window.location.href = "login.html";
   }
 });
 
-//  Start the game
+// Start the quiz
 startQuiz();
